@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hangman Game</title>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background: linear-gradient(90deg, #8B4513, #A0522D);
+    background-image: repeating-linear-gradient(
+        90deg,
+        #A0522D 0px,
+        #8B4513 20px,
+        #A0522D 40px
+    );
+    background-size: 100% 100%;
+    color: #fff; /* Hace que el texto sea más legible */
+}
+        .word, .keyboard {
+    background: rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+}
+        .keyboard button {
+    background: #8B4513;
+    border: 2px solid #5D3A00;
+    color: white;
+    font-weight: bold;
+    padding: 10px;
+    cursor: pointer;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+}
+      .keyboard button:hover {
+    background: #A0522D;
+}
+        .hangman { height: 200px; }
+    </style>
+</head>
+<body>
+    <h1>Hangman Game</h1>
+    <svg class="hangman" viewBox="0 0 200 250">
+        <line x1="10" y1="240" x2="190" y2="240" stroke="black" stroke-width="4"/>
+        <line x1="50" y1="240" x2="50" y2="20" stroke="black" stroke-width="4"/>
+        <line x1="50" y1="20" x2="150" y2="20" stroke="black" stroke-width="4"/>
+        <line x1="150" y1="20" x2="150" y2="50" stroke="black" stroke-width="4"/>
+        <circle id="head" cx="150" cy="70" r="20" stroke="black" stroke-width="4" fill="none" style="display: none;"/>
+        <line id="body" x1="150" y1="90" x2="150" y2="150" stroke="black" stroke-width="4" style="display: none;"/>
+        <line id="leftArm" x1="150" y1="110" x2="120" y2="130" stroke="black" stroke-width="4" style="display: none;"/>
+        <line id="rightArm" x1="150" y1="110" x2="180" y2="130" stroke="black" stroke-width="4" style="display: none;"/>
+        <line id="leftLeg" x1="150" y1="150" x2="120" y2="180" stroke="black" stroke-width="4" style="display: none;"/>
+        <line id="rightLeg" x1="150" y1="150" x2="180" y2="180" stroke="black" stroke-width="4" style="display: none;"/>
+    </svg>
+    <p class="word" id="wordDisplay"></p>
+    <div class="keyboard" id="keyboard"></div>
+    <p id="message"></p>
+    <script>
+        const words = ["apple","table","car","book","computer","dog","cat","house","tree","river","mountain","city","airplane","bicycle","flower","chair","door","window","phone","television","lamp","road","bridge","beach","ocean","lake","forest","desert","island","castle","tower","stadium","school","university","hospital","restaurant","hotel","office","factory","farm","garden","park","museum","theater","church","temple","market","store","supermarket","bakery","bank","library","station","airport","harbor","ship","train","bus","truck","motorcycle","camera","clock","watch","mirror","picture","painting","sculpture","hat","shirt","pants","dress","shoes","gloves","jacket","suitcase","backpack","umbrella","key","wallet","coin","money","check","credit card","passport","ticket","map","newspaper","magazine","letter","envelope","pen","pencil","notebook","ruler","eraser","stapler","paperclip","scissors","brush","comb","soap","shampoo","towel","toothbrush","toothpaste","perfume","razor","pillow","blanket","mattress","bed","sofa","armchair","shelf","drawer","wardrobe","carpet","curtain","fence","ladder","hammer","screwdriver","wrench","drill","saw","nail","bolt","rope","chain","basket","bottle","glass","cup","plate","fork","knife","spoon","pot","pan","stove","microwave","refrigerator","dishwasher","sink","broom","mop","vacuum","detergent","fire","smoke","ash","wind","rain","snow","thunder","lightning","sun","moon","star","planet","galaxy","universe","atom","molecule","cell","tissue","organ","bone","muscle","blood","heart","brain","lung","liver","stomach","skin","eye","ear","nose","mouth","tongue","tooth","hair","voice","shadow","reflection","dream","thought","memory","idea","emotion","love","hate","joy","sadness","anger","fear","surprise","hope","doubt","belief","faith","knowledge","wisdom","truth","lie","story","song","music","dance","game","sport","race","competition","victory","defeat","goal","team","player","coach","referee","fan","artist","writer","poet","singer","musician","dancer","actor","director","chef","doctor","nurse","teacher","student","scientist","engineer","architect","lawyer","judge","police","firefighter","soldier","politician","president","king","queen","prince","princess","farmer","fisherman","hunter","driver","mechanic","pilot","astronaut","sailor","carpenter","plumber","electrician","designer","photographer","journalist","banker","trader","businessman","worker","employee","boss","leader","friend","enemy","stranger","neighbor","guest","host","parent","child","mother","father","son","daughter","brother","sister","uncle","aunt","cousin","grandfather","grandmother","baby","boy","girl","woman","man","human","animal","insect","fish","bird","reptile","mammal","lion","tiger","bear","wolf","elephant","giraffe","monkey","snake","crocodile","turtle","dolphin","shark","whale","eagle","owl","butterfly","bee","ant","spider","crab","lobster","horse","cow","pig","sheep","goat","chicken","duck","rabbit","fox","frog","lizard","zebra","kangaroo","camel","deer","squirrel","mouse","rat","bat","octopus","jellyfish","coral","mushroom","tree","bush","grass","flower","rose","tulip","daisy","sunflower","cactus","bamboo","ivy","leaf","root","seed","fruit","vegetable","apple","banana","orange","grape","cherry","strawberry","watermelon","pineapple","mango","peach","pear","lemon","lime","coconut","tomato","potato","carrot","onion","garlic","lettuce","spinach","broccoli","pepper","cucumber","eggplant","corn","rice","wheat","bread","cheese","milk","butter","yogurt","egg","meat","chicken","beef","pork","fish","shrimp","crab","lobster","honey","sugar","salt","pepper","vinegar","oil","sauce","soup","salad","sandwich","pizza","pasta","cake","cookie","chocolate","candy","ice cream","coffee","tea","juice","soda","wine","beer","whiskey","vodka","rum","champagne","oxygen","hydrogen","carbon","nitrogen","iron","gold","silver","copper","aluminum","plastic","wood","paper","stone","brick","glass","clay","leather","fabric","cotton","wool","silk","rubber","electricity","magnet","machine","robot","engine","battery","circuit","signal","network","internet","website","software","hardware","algorithm","data","code","program","database","file","folder","document","email","message","call","video","camera","microphone","speaker","screen","keyboard","mouse","printer","scanner","remote","button","switch","lever","dial","knob","handle","gear","wheel","axle","spring","valve","pipe","chimney","fence","bridge","tower","tunnel","dam","wall","roof","window","door","floor","ceiling","balcony","staircase","elevator","escalator","street","sidewalk","highway","crosswalk","traffic light","sign","billboard","advertisement","currency","economy","trade","market","industry","business","company","organization","government","law","rule","regulation","tax","budget","election","vote","parliament","congress","court","trial","prison","war","peace","treaty","revolution","culture","tradition","festival","holiday","religion","church","temple","mosque","prayer","god","deity","angel","demon","ghost","soul","spirit","fate","destiny","luck","fortune","chance","adventure","journey","travel","vacation","hotel","ticket","passport","luggage","souvenir","memory","experience","story","history","legend","myth","fairy tale","fable","novel","poetry","play","comedy","tragedy","joke","riddle","puzzle","mystery","crime","detective","spy","hero","villain","monster","dragon","vampire","zombie","alien","robot","wizard","witch","fairy","mermaid","knight","samurai","gladiator","pirate","cowboy","astronaut","explorer","scientist","inventor","artist","musician","athlete","warrior","scholar","philosopher","teacher","student","friend","lover","family","society","humanity","nature","universe"];
+        let selectedWord = words[Math.floor(Math.random() * words.length)];
+        let guessedLetters = [];
+        let incorrectGuesses = 0;
+        const maxGuesses = 6;
+        const elements = ["head", "body", "leftArm", "rightArm", "leftLeg", "rightLeg"];
+
+        function displayWord() {
+            document.getElementById("wordDisplay").textContent = selectedWord
+                .split('')
+                .map(letter => guessedLetters.includes(letter) ? letter : '_')
+                .join(' ');
+        }
+
+        function handleGuess(letter) {
+            if (guessedLetters.includes(letter)) return;
+            guessedLetters.push(letter);
+            
+            if (!selectedWord.includes(letter)) {
+                document.getElementById(elements[incorrectGuesses]).style.display = "block";
+                incorrectGuesses++;
+            }
+            
+            displayWord();
+            checkGameOver();
+        }
+
+        function checkGameOver() {
+            if (!document.getElementById("wordDisplay").textContent.includes('_')) {
+                document.getElementById("message").textContent = "You Win!";
+                setTimeout(resetGame, 2000);
+            } else if (incorrectGuesses === maxGuesses) {
+                document.getElementById("message").textContent = "You Lose! The word was " + selectedWord;
+                setTimeout(resetGame, 2000);
+            }
+        }
+
+        function resetGame() {
+            selectedWord = words[Math.floor(Math.random() * words.length)];
+            guessedLetters = [];
+            incorrectGuesses = 0;
+            elements.forEach(id => document.getElementById(id).style.display = "none");
+            document.getElementById("message").textContent = "";
+            displayWord();
+        }
+
+        function createKeyboard() {
+            const keyboardDiv = document.getElementById("keyboard");
+            "abcdefghijklmnopqrstuvwxyz".split('').forEach(letter => {
+                let button = document.createElement("button");
+                button.textContent = letter;
+                button.onclick = () => handleGuess(letter);
+                keyboardDiv.appendChild(button);
+            });
+        }
+
+        displayWord();
+        createKeyboard();
+    </script>
+</body>
+</html>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>LA-IA ARCADE</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <header>
+    <div class="logo">AI vs Videogames vs You: Take our challenge and find out!</div>
+  </header>
+  <main>
+    <section class="hero">
+      <!-- Contenido original del hero -->
+      <div class="hero-content" id="hero-content">
+        <div class="hero-text">
+          <h1 id="hero-title"></h1>
+          <h2 id="hero-subtitle"></h2>
+          <p id="hero-description"></p>
+          <button class="play-btn">JUGAR</button>
+        </div>
+        <div class="hero-image">
+          <img id="hero-image" src="" alt="Imagen del juego" />
+        </div>
+      </div>
+
+      <!-- Contenedor para el juego, oculto por defecto -->
+      <!-- <div class="game-container" id="game-container" style="display:none;">
+        <span class="close-game">&times;</span>
+        <iframe id="game-frame" frameborder="0"></iframe>
+      </div> -->
+    </section>
+    <section class="carousel-section">
+      <h3>Games Collection</h3>
+      <div class="carousel-container">
+        <!-- Card 1: Frogger -->
+        <div class="game-card" data-title="Frogger" data-subtitle="Konami / Sega"
+          data-description="Frogger is a classic arcade game where players control a frog trying to cross a busy road and a treacherous river to reach safety. The goal is to guide the frog home while avoiding cars, trucks, alligators, and other obstacles. The game is known for its simple yet challenging gameplay and remains one of the most iconic titles in arcade history."
+          data-image="./img/bg/frogger.webp" data-file="./games/froggy.html">
+          <img src="./img/cover/frogger.webp" alt="Frogger" />
+          <p>Frogger</p>
+        </div>
+
+        <!-- Card 2: Checkers -->
+        <div class="game-card" data-title="Checkers" data-subtitle="Arthur Samuel's Checkers Program for IBM 701"
+          data-description="Checkers is a turn-based strategy board game played on an 8×8 (or larger) grid where two players compete to capture or block all of the opponent's pieces. Players move diagonally, and pieces can jump over opponents to capture them. Once a piece reaches the farthest row, it is kinged and gains additional movement abilities. The game is simple to learn but requires strategic thinking to master."
+          data-image="./img/bg/checkers.png" data-file="./games/checkers.html">
+          <img src="./img/cover/checkers.webp" alt="Checkers" />
+          <p>Checkers</p>
+        </div>
+
+        <!-- Card 3: Sudoku -->
+        <div class="game-card" data-title="Sudoku" data-subtitle="Microsoft DOS"
+          data-description="Sudoku is a logic-based number puzzle where players fill a 9×9 grid so that each row, column, and 3×3 subgrid contains the digits 1 to 9 without repetition. Originally called Number Place, it was later popularized in Japan as Sudoku. The game became globally famous in the early 2000s and is now available in newspapers, apps, and video games."
+          data-image="./img/bg/sudoku.png" data-file="./games/sudoku.html">
+          <img src="./img/cover/sudoku.webp" alt="Sudoku" />
+          <p>Sudoku</p>
+        </div>
+
+        <!-- Card 4: Connect Four -->
+        <div class="game-card" data-title="Connect Four" data-subtitle="Hasbro / Milton Bradley"
+          data-description="Connect Four is a two-player connection board game in which players take turns dropping colored discs into a vertical grid. The objective is to connect four of one's own discs in a row while preventing the opponent from doing so."
+          data-image="./img/bg/connect-four.png" data-file="./games/connect-four.html">
+          <img src="./img/cover/connect-four.webp" alt="Connect Four" />
+          <p>Connect Four</p>
+        </div>
+
+        <!-- Card 5: 2048 -->
+        <div class="game-card" data-title="2048" data-subtitle="Gabriele Cirulli"
+          data-description="2048 is a single-player sliding block puzzle game where the objective is to combine numbered tiles to create a tile with the number 2048. It has gained massive popularity for its simplicity and addictive gameplay."
+          data-image="./img/bg/2048.png" data-file="./games/2048.html">
+          <img src="./img/cover/2048.webp" alt="2048" />
+          <p>2048</p>
+        </div>
+
+        <!-- Card 6: Tic Tac Toe -->
+        <div class="game-card" data-title="Tic Tac Toe" data-subtitle="Classic Game"
+          data-description="Tic Tac Toe is a simple, turn-based strategy game where players mark spaces in a 3×3 grid to try to form a horizontal, vertical, or diagonal line of three of their own marks."
+          data-image="./img/bg/tic-tac-toe.png" data-file="./games/tic-tac-toe.html">
+          <img src="./img/cover/tic-tac-toe.webp" alt="Tic Tac Toe" />
+          <p>Tic Tac Toe</p>
+        </div>
+
+        <!-- Card 7: Pacman -->
+        <div class="game-card" data-title="Pacman" data-subtitle="Namco / Midway"
+          data-description="Pacman is an iconic arcade game in which players navigate a yellow circle through a maze, eating pellets while avoiding colorful ghosts. It is one of the most influential games in history."
+          data-image="./img/bg/pacman.png" data-file="./games/pacman.html">
+          <img src="./img/cover/pacman.webp" alt="Pacman" />
+          <p>Pacman</p>
+        </div>
+
+        <!-- Card 8: Tetris -->
+        <div class="game-card" data-title="Tetris" data-subtitle="Alexey Pajitnov"
+          data-description="Tetris is a tile-matching puzzle video game that challenges players to complete horizontal lines by strategically stacking falling tetrominoes. It is one of the best-selling games of all time."
+          data-image="./img/bg/tetris.png" data-file="./games/tetris.html">
+          <img src="./img/cover/tetris.webp" alt="Tetris" />
+          <p>Tetris</p>
+        </div>
+
+        <!-- Card 9: Space Invaders -->
+        <div class="game-card" data-title="Space Invaders" data-subtitle="Taito"
+          data-description="Space Invaders is a classic arcade shooting game in which players control a laser cannon to defeat waves of descending aliens. It set the template for the shoot 'em up genre."
+          data-image="./img/bg/space-invaders.webp" data-file="./games/space-invaders.html">
+          <img src="./img/cover/space-invaders.webp" alt="Space Invaders" />
+          <p>Space Invaders</p>
+        </div>
+
+        <!-- Card 10: Snake -->
+        <div class="game-card" data-title="Snake" data-subtitle="Classic Mobile Game"
+          data-description="Snake is a simple yet addictive video game where the player maneuvers a growing line that becomes a primary obstacle to itself. The objective is to consume objects to grow longer without colliding with walls or itself."
+          data-image="./img/bg/snake.png" data-file="./games/snake.html">
+          <img src="./img/cover/snake.webp" alt="Snake" />
+          <p>Snake</p>
+        </div>
+
+        <!-- Card 11: Hanged Man -->
+        <div class="game-card" data-title="Hanged Man" data-subtitle="Classic Game"
+          data-description="Hanged Man is a guessing game in which players try to determine a word or phrase by guessing letters, with each incorrect guess bringing the hangman closer to completion. It challenges both vocabulary and logic."
+          data-image="./img/bg/hanged-man.png" data-file="./games/hanged-man.html">
+          <img src="./img/cover/hanger-man.webp" alt="Hanged Man" />
+          <p>Hanged Man</p>
+        </div>
+
+        <!-- Card 12: Minesweeper -->
+        <div class="game-card" data-title="Minesweeper" data-subtitle="Microsoft Classic"
+          data-description="Minesweeper is a logic-based puzzle game in which players uncover squares on a grid while avoiding hidden mines. The numbers revealed on the grid indicate the number of neighboring mines."
+          data-image="./img/bg/minesweeper.png" data-file="./games/minesweeper.html">
+          <img src="./img/cover/minesweeper.webp" alt="Minesweeper" />
+          <p>Minesweeper</p>
+        </div>
+      </div>
+    </section>
+  </main>
+  <script src="script.js"></script>
+</body>
+
+</html>

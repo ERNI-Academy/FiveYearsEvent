@@ -1,0 +1,213 @@
+/* Reset básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Aseguramos que html y body ocupen el 100% del viewport y no se haga scroll */
+html,
+body {
+  height: 100%;
+  overflow: hidden;
+}
+
+/* Usamos flexbox para distribuir el contenido verticalmente */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #fff;
+  color: #3c3c3b;
+  line-height: 1.5;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Encabezado */
+header {
+  display: flex;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: #033778;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.logo {
+  font-size: 1.5rem;
+}
+
+/* Área principal: hero */
+main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* La sección hero ocupa el área central y se le da un margin-bottom para que no se superponga al carrusel */
+.hero {
+  position: relative;
+  min-height: 400px;
+  /* O el alto mínimo que consideres adecuado */
+  padding: 2rem;
+  /* Si deseas mantener padding para el contenido original */
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 2rem;
+}
+
+.hero-content {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+
+.hero-text {
+  flex: 1 1 400px;
+  max-width: 600px;
+}
+
+.hero-text h1 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.hero-text h2 {
+  font-size: 1.2rem;
+  font-weight: normal;
+  margin-bottom: 1rem;
+  color: #00aadb;
+}
+
+.hero-text p {
+  margin-bottom: 1.5rem;
+  color: #3c3c3b;
+}
+
+.play-btn {
+  background-color: #033778;
+  color: #fff;
+  padding: 0.8rem 1.5rem;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  border-radius: 20px;
+  transition: background-color 0.3s ease;
+}
+
+.play-btn:hover {
+  background-color: #00aadb;
+}
+
+.hero-image {
+  flex: 1 1 300px;
+  display: flex;
+  justify-content: center;
+}
+
+.hero-image img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  /* Degradado horizontal para crear un efecto de transparencia en los bordes */
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 20%, black 80%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0%, black 20%, black 80%, transparent 100%);
+}
+
+
+/* Carrusel fijo en la parte inferior */
+.carousel-section {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #fff;
+  padding: 0.5rem 2rem;
+  /* Se redujo el padding vertical */
+  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  height: 280px;
+  /* Se aumenta la altura para que se vea completo */
+}
+
+.carousel-section h3 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Contenedor del carrusel: scroll horizontal */
+.carousel-container {
+  display: flex;
+  overflow-x: auto;
+  gap: 1rem;
+  padding-bottom: 0.5rem;
+  scroll-behavior: smooth;
+}
+
+/* Tarjeta individual del juego */
+.game-card {
+  width: 150px;
+  background-color: #033778;
+  border-radius: 8px;
+  text-align: center;
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+
+.game-card:hover {
+  background-color: #00aadb;
+}
+
+.game-card img {
+  width: 100%;
+  object-fit: cover;
+  height: 150px;
+  border-radius: 4px;
+  margin-bottom: 0.5rem;
+}
+
+.game-card p {
+  color: #fff;
+  font-size: 0.9rem;
+  height: 2rem;
+  text-transform: uppercase;
+}
+
+/* Contenedor del juego que se superpone y cubre el hero por completo */
+.game-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #000;
+  /* Fondo oscuro para el juego */
+  display: none;
+  /* Se mostrará al pulsar "JUGAR" */
+  z-index: 10;
+}
+
+/* Estilo para el iframe que muestra el juego */
+#game-frame {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* Botón para cerrar el juego */
+.close-game {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  color: #fff;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 20;
+}

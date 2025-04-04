@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sudoku Game</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+            font-size: 24px;
+        }
+        #timer {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        #sudoku-board {
+            display: grid;
+            grid-template-columns: repeat(9, 1fr);
+            gap: 2px;
+            width: 400px;
+            margin: 20px auto;
+            padding: 10px;
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .cell {
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    font-size: 18px;
+    border: 1px solid #ccc; /* Borde ligero para cada celda */
+    outline: none;
+    background-color: #fafafa;
+    box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease-in-out;
+           user-select: none;  /* Evita que el usuario seleccione el texto */
+    cursor: pointer;
+}
+
+/* Resalta los bordes de los bloques de 3x3 */
+.cell:nth-child(3n) {
+    border-right: 2px solid #000;
+}
+
+.cell:nth-child(27n + 1) {
+    border-left: 2px solid #000;
+}
+
+.cell:nth-child(n + 19):nth-child(-n + 27),
+.cell:nth-child(n + 46):nth-child(-n + 54) {
+    border-bottom: 2px solid #000;
+}
+
+.cell:nth-child(n + 1):nth-child(-n + 9) {
+    border-top: 2px solid #000;
+}
+
+        .cell:focus {
+            background-color: #d3e5ff;
+        }
+        .pre-filled {
+            background-color: #e0e0e0;
+            font-weight: bold;
+            color: #333;
+        }
+        .selected {
+            background-color: #b3d1ff;
+        }
+        .error {
+            background-color: #ffb3b3;
+        }
+        .controls {
+            margin-top: 15px;
+        }
+        .controls button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease-in-out;
+        }
+        .controls button:hover {
+            background-color: #0056b3;
+        }
+        #message {
+            font-size: 20px;
+            font-weight: bold;
+            color: #28a745;
+            margin-top: 10px;
+            display: none;
+        }
+        #sudoku-board, .controls, #timer {
+          display: none;
+        }
+
+      #difficulty-selection {
+          background-color: #ffffff;
+          padding: 20px;
+          border-radius: 10px;
+          box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+          width: 300px;
+          margin: 50px auto;
+          text-align: center;
+      }
+      
+      #difficulty-selection h2 {
+          color: #333;
+          font-size: 22px;
+          margin-bottom: 20px;
+      }
+      
+      #difficulty-selection button {
+          background-color: #007bff;
+          color: white;
+          border: none;
+          padding: 12px 20px;
+          margin: 5px;
+          font-size: 16px;
+          cursor: pointer;
+          border-radius: 5px;
+          transition: background-color 0.3s ease-in-out;
+          width: 100%;
+      }
+      
+      #difficulty-selection button:hover {
+          background-color: #0056b3;
+      }
+#number-selection {
+    margin: 20px auto;
+    padding: 10px;
+    text-align: center;
+}
+
+.number-options {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+
+.number {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    line-height: 40px;
+    background-color: #007bff;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+   user-select: none;  /* Evita que el usuario seleccione el texto */
+    cursor: pointer;
+}
+
+.number:hover {
+    background-color: #0056b3;
+}
+
+.cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+    border: 1px solid #ccc;
+    outline: none;
+    background-color: #fafafa;
+    box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease-in-out;
+    cursor: pointer;
+   user-select: none;  /* Evita que el usuario seleccione el texto */
+    cursor: pointer;
+}
+
+.cell.selected {
+    background-color: #b3d1ff;
+}
+
+.cell.error {
+    background-color: #ffb3b3;
+}
+
+
+    </style>
+</head>
+<body>
+    <h1>Sudoku</h1>
+    <div id="timer">Time: 0s</div>
+    <div id="message"></div>
+    <div id="difficulty-selection">
+        <h2>Select Difficulty</h2>
+        <button onclick="startGame('easy')">Easy</button>
+        <button onclick="startGame('medium')">Medium</button>
+        <button onclick="startGame('hard')">Hard</button>
+    </div>
+    <div id="sudoku-board"></div>
+    <div class="controls">
+        <button onclick="resetBoard()">Reset</button>
+    </div>
+  <div id="number-selection">
+    <h3>Select a Number</h3>
+    <div class="number-options">
+        <div class="number">1</div>
+        <div class="number">2</div>
+        <div class="number">3</div>
+        <div class="number">4</div>
+        <div class="number">5</div>
+        <div class="number">6</div>
+        <div class="number">7</div>
+        <div class="number">8</div>
+        <div class="number">9</div>
+    </div>
+</div>
+   <script>
+        let time = 0;
+        let timerInterval;
+let selectedCell = null;
+let selectedNumber = null;
+
+
+        const board = [];
+
+        function generateSudoku() {
+            let board = Array.from({ length: 9 }, () => Array(9).fill(0));
+        
+            function isSafe(row, col, num) {
+                for (let i = 0; i < 9; i++) {
+                    if (board[row][i] === num || board[i][col] === num) return false;
+                }
+                let startRow = Math.floor(row / 3) * 3;
+                let startCol = Math.floor(col / 3) * 3;
+                for (let i = 0; i < 3; i++) {
+                    for (let j = 0; j < 3; j++) {
+                        if (board[startRow + i][startCol + j] === num) return false;
+                    }
+                }
+                return true;
+            }
+        
+            function fillBoard() {
+                for (let row = 0; row < 9; row++) {
+                    for (let col = 0; col < 9; col++) {
+                        if (board[row][col] === 0) {
+                            let numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9].sort(() => Math.random() - 0.5);
+                            for (let num of numbers) {
+                                if (isSafe(row, col, num)) {
+                                    board[row][col] = num;
+                                    if (fillBoard()) return true;
+                                    board[row][col] = 0;
+                                }
+                            }
+                            return false;
+                        }
+                    }
+                }
+                return true;
+            }
+        
+            fillBoard();
+            return board;
+        }
+        
+        function removeNumbers(board, difficulty) {
+            let attempts = difficulty === 'easy' ? 30 : difficulty === 'medium' ? 40 : 50;
+            while (attempts > 0) {
+                let row = Math.floor(Math.random() * 9);
+                let col = Math.floor(Math.random() * 9);
+                while (board[row][col] === 0) {
+                    row = Math.floor(Math.random() * 9);
+                    col = Math.floor(Math.random() * 9);
+                }
+                board[row][col] = 0;
+                attempts--;
+            }
+            return board;
+        }
+        
+function createDynamicBoard(difficulty = 'medium') {
+    let fullBoard = generateSudoku();
+    let playableBoard = removeNumbers(fullBoard, difficulty);
+    
+    const boardElement = document.getElementById("sudoku-board");
+    boardElement.innerHTML = "";
+    
+    for (let row = 0; row < 9; row++) {
+        for (let col = 0; col < 9; col++) {
+            const cell = document.createElement("div");
+            cell.classList.add("cell");
+            cell.dataset.row = row;
+            cell.dataset.col = col;
+            
+            if (playableBoard[row][col] !== 0) {
+                cell.innerText = playableBoard[row][col];
+                cell.classList.add("pre-filled");
+            } else {
+                cell.classList.add("empty");
+               cell.addEventListener("click", () => {
+                    selectCell(cell);
+                });
+            }
+            
+            boardElement.appendChild(cell);
+        }
+    }
+    startTimer();
+}
+
+
+
+        function startTimer() {
+            clearInterval(timerInterval);
+            time = 0;
+            document.getElementById("timer").innerText = `Time: ${time}s`;
+            timerInterval = setInterval(() => {
+                time++;
+                document.getElementById("timer").innerText = `Time: ${time}s`;
+            }, 1000);
+        }
+
+       function handleInput(event, row, col) {
+              const value = parseInt(event.target.value);
+              if (!value || value < 1 || value > 9) {
+                  event.target.value = "";
+                  return;
+              }
+          
+              if (!isValidMove(row, col, value)) {
+                  event.target.classList.add("error");
+              } else {
+                  event.target.classList.remove("error");
+              }
+          
+              isBoardComplete();
+          }
+
+
+        function selectCell(cell) {
+            document.querySelectorAll(".cell").forEach(c => c.classList.remove("selected"));
+            cell.classList.add("selected");
+        }
+
+        function isValidMove(row, col, value) {
+              const cells = document.querySelectorAll(".cell");
+          
+              // Crear una matriz con los valores actuales ingresados por el usuario
+              let boardValues = Array.from({ length: 9 }, () => Array(9).fill(0));
+              
+              cells.forEach(cell => {
+                  let r = parseInt(cell.dataset.row);
+                  let c = parseInt(cell.dataset.col);
+                  boardValues[r][c] = parseInt(cell.value) || 0;
+              });
+          
+              // Verificar si el número ya está en la fila o columna
+              for (let i = 0; i < 9; i++) {
+                  if (boardValues[row][i] === value && i !== col) return false;
+                  if (boardValues[i][col] === value && i !== row) return false;
+              }
+          
+              // Verificar si el número ya está en el subcuadrante 3x3
+              const startRow = Math.floor(row / 3) * 3;
+              const startCol = Math.floor(col / 3) * 3;
+              for (let i = 0; i < 3; i++) {
+                  for (let j = 0; j < 3; j++) {
+                      let r = startRow + i;
+                      let c = startCol + j;
+                      if (boardValues[r][c] === value && (r !== row || c !== col)) return false;
+                  }
+              }
+          
+              return true;
+          }
+
+
+        function resetBoard() {
+             clearInterval(timerInterval);
+              document.getElementById("sudoku-board").style.display = "none";
+              document.querySelector(".controls").style.display = "none";
+              document.getElementById("timer").style.display = "none";
+              document.getElementById("message").style.display = "none"; 
+              document.getElementById("difficulty-selection").style.display = "block";
+        }
+
+        function isBoardComplete() {
+              const boardValues = Array.from({ length: 9 }, () => Array(9).fill(0));
+              
+              // Rellenar la matriz con los valores actuales del tablero
+              document.querySelectorAll(".cell").forEach(cell => {
+                  let row = parseInt(cell.dataset.row);
+                  let col = parseInt(cell.dataset.col);
+                  boardValues[row][col] = parseInt(cell.value) || 0;
+              });
+          
+              // Función para verificar si un array contiene números 1-9 sin repeticiones
+              function isValidGroup(arr) {
+                  return arr.sort().join('') === "123456789";
+              }
+          
+              // Verificar filas y columnas
+              for (let i = 0; i < 9; i++) {
+                  let row = boardValues[i].slice(); // Copia de la fila
+                  let col = boardValues.map(row => row[i]); // Columna extraída
+                  if (!isValidGroup(row) || !isValidGroup(col)) {
+                      return false;
+                  }
+              }
+          
+              // Verificar subcuadrantes 3x3
+              for (let startRow = 0; startRow < 9; startRow += 3) {
+                  for (let startCol = 0; startCol < 9; startCol += 3) {
+                      let square = [];
+                      for (let i = 0; i < 3; i++) {
+                          for (let j = 0; j < 3; j++) {
+                              square.push(boardValues[startRow + i][startCol + j]);
+                          }
+                      }
+                      if (!isValidGroup(square)) {
+                          return false;
+                      }
+                  }
+              }
+          
+              // Si todo es correcto, mostrar mensaje de victoria
+              document.getElementById("message").innerText = "Congratulations! You have successfully completed the Sudoku.";
+              document.getElementById("message").style.display = "block";
+              clearInterval(timerInterval);
+              return true;
+          }
+
+function selectCell(cell) {
+    try {
+        if (!cell.classList.contains("empty")) {
+            console.log("Intentaste seleccionar una celda no vacía.");
+            return;
+        }
+
+        console.log(`Ejecutando selectCell() para la celda: (${cell.dataset.row}, ${cell.dataset.col})`);
+
+        // Quitar selección previa
+        document.querySelectorAll(".cell").forEach(c => c.classList.remove("selected"));
+
+        // Asignar la celda seleccionada
+        selectedCell = cell;
+        selectedCell.classList.add("selected");
+
+        console.log(`Celda seleccionada correctamente: (${selectedCell.dataset.row}, ${selectedCell.dataset.col})`);
+    } catch (error) {
+        console.error("Error en selectCell():", error);
+    }
+}
+
+
+function selectNumber(number) {
+    console.log("Número seleccionado:", number);
+
+    if (!selectedCell) {
+        alert("Selecciona una celda antes de elegir un número.");
+        return;
+    }
+
+    selectedCell.innerText = number; // Asigna el número a la celda
+    console.log(`Número asignado a la celda (${selectedCell.dataset.row}, ${selectedCell.dataset.col}): ${number}`);
+
+    selectedCell.classList.remove("selected");
+    selectedCell = null; // Desmarcar la celda después de asignar el número
+}
+
+
+function validateMove(row, col, value) {
+    row = parseInt(row);
+    col = parseInt(col);
+    value = parseInt(value);
+    
+    const cells = document.querySelectorAll(".cell");
+    let boardValues = Array.from({ length: 9 }, () => Array(9).fill(0));
+    
+    cells.forEach(cell => {
+        let r = parseInt(cell.dataset.row);
+        let c = parseInt(cell.dataset.col);
+        boardValues[r][c] = parseInt(cell.innerText) || 0;
+    });
+
+    for (let i = 0; i < 9; i++) {
+        if (boardValues[row][i] === value && i !== col) {
+            selectedCell.classList.add("error");
+            return;
+        }
+        if (boardValues[i][col] === value && i !== row) {
+            selectedCell.classList.add("error");
+            return;
+        }
+    }
+
+    const startRow = Math.floor(row / 3) * 3;
+    const startCol = Math.floor(col / 3) * 3;
+    for (let i = 0; i < 3; i++) {
+        for (let j = 0; j < 3; j++) {
+            let r = startRow + i;
+            let c = startCol + j;
+            if (boardValues[r][c] === value && (r !== row || c !== col)) {
+                selectedCell.classList.add("error");
+                return;
+            }
+        }
+    }
+
+    selectedCell.classList.remove("error");
+}
+
+          function startGame(difficulty) {
+              document.getElementById("difficulty-selection").style.display = "none";
+              document.getElementById("sudoku-board").style.display = "grid";
+              document.querySelector(".controls").style.display = "block";
+              document.getElementById("timer").style.display = "block";
+              createDynamicBoard(difficulty);
+          }
+     document.addEventListener("DOMContentLoaded", function() {
+    let numbers = document.querySelectorAll(".number");
+    numbers.forEach(num => {
+        num.addEventListener("click", function() {
+            selectNumber(parseInt(this.innerText));
+        });
+    });
+});
+     setTimeout(() => {
+    document.querySelectorAll(".empty").forEach(cell => {
+        cell.addEventListener("click", function() {
+            console.log(`Click forzado en celda vacía (${cell.dataset.row}, ${cell.dataset.col})`);
+            selectCell(cell);
+        });
+    });
+    console.log("Eventos de clic agregados manualmente a celdas vacías.");
+}, 500);
+
+    </script>
+</body>
+</html>
